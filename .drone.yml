@@ -18,3 +18,6 @@ trigger:
   branch:
   - master
   - test
+  event:
+  - pull_request
+  - push
