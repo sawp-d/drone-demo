@@ -1,0 +1,19 @@
+kind: pipeline
+name: build
+
+environment: 
+  REG_VARIABLE: myvar
+  SECRET_VARIABLE:
+    from_secret: mysecretvar
+
+steps:
+- name: test
+  image: alpine:3.8
+  commands:
+  - echo $REG_VARIABLE
+  - cat README.md
+  - envsubst < README.md | tee README.md
+  - cat README.md
+trigger:
+  branch:
+  - feature/drone-updates
