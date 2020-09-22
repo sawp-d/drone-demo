@@ -17,5 +17,4 @@ steps:
 trigger:
   branch:
   - master
-  event: 
-  - promote
+  - test
