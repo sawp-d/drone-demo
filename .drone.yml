@@ -8,7 +8,7 @@ environment:
 
 steps:
 - name: test
-  image: alpine:3.8
+  image: ubuntu:18.04
   commands:
   - echo $REG_VARIABLE
   - cat README.md
