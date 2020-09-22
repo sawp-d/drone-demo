@@ -16,4 +16,4 @@ steps:
   - cat README.md
 trigger:
   branch:
-  - feature/drone-updates
+  - master
