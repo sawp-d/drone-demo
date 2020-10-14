@@ -11,6 +11,8 @@ steps:
     SECRET_VARIABLE:
     from_secret: mysecretvar
   commands:
+  - apt-get update
+  - apt-get install -y gettext
   - echo $REG_VARIABLE
   - cat README.md
   - envsubst < README.md | tee README.md
