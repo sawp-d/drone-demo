@@ -3,12 +3,13 @@ name: build
 
 environment: 
   REG_VARIABLE: myvar
-  SECRET_VARIABLE:
-    from_secret: mysecretvar
-
+ 
 steps:
 - name: test
   image: ubuntu:18.04
+  environment:
+    SECRET_VARIABLE:
+    from_secret: mysecretvar
   commands:
   - echo $REG_VARIABLE
   - cat README.md
