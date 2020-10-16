@@ -20,5 +20,5 @@ steps:
   - RETRIES=0
   - MAX_RETRIES=3
   - until $RETRIES < $MAX_RETRIES; do $RETRIES+= 1; done
-  - if [RETRIES == MAX_RETRIES]; then echo "Error\:\ Max retries exceeded." fi
+  - if [RETRIES == MAX_RETRIES]; then echo "Error" fi
 
