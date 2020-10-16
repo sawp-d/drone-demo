@@ -12,7 +12,7 @@ steps:
     from_secret: mysecretvar
   commands:
   - RETRIES=0
-  - MAX_RETRIES=3
+  - MAX_RETRIES=2
   - until $RETRIES < $MAX_RETRIES; do let $RETRIES=$RETRIES+1; done
   - if [RETRIES == MAX_RETRIES]; then echo "Error" fi
 
