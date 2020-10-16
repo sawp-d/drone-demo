@@ -11,12 +11,6 @@ steps:
     SECRET_VARIABLE:
     from_secret: mysecretvar
   commands:
-  - apt-get update
-  - apt-get install -y gettext
-  - echo $REG_VARIABLE
-  - cat README.md
-  - envsubst < README.md | tee README.md
-  - cat README.md
   - RETRIES=0
   - MAX_RETRIES=3
   - until $RETRIES < $MAX_RETRIES; do $RETRIES+= 1; done
