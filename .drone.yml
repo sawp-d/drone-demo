@@ -10,7 +10,7 @@ steps:
   environment:
     SECRET_VARIABLE:
     from_secret: mysecretvar
+    RETRIES: 0
   commands:
-  - RETRIES=0
   - until ["$RETRIES" -ge 3]; do RETRIES=$((RETRIES+1)); done
   - echo $RETRIES
