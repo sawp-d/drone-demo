@@ -12,5 +12,5 @@ steps:
     from_secret: mysecretvar
     RETRIES: 0
   commands:
-  - until ["$RETRIES" -ge 3]; do RETRIES=$((RETRIES+1)); echo $RETRIES; sleep 5; done
+  - until ["$RETRIES" -eq 3]; do RETRIES=$((RETRIES+1)); echo $RETRIES; sleep 5; done
   - echo $RETRIES
