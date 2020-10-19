@@ -18,7 +18,7 @@ steps:
   - envsubst < README.md | tee README.md
   - cat README.md
   - RETRIES=0
-  - MAX_RETRIES=3
-  - until $RETRIES < $MAX_RETRIES; do $RETRIES+= 1; done
+  - export MAX_RETRIES=3
+  - until "$RETRIES" -ge 3; do break || RETRIES=$((RETRIES+1)) ; done
   - if [RETRIES == MAX_RETRIES]; then echo "Error" fi
 
