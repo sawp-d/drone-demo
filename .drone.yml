@@ -1,16 +1,19 @@
 kind: pipeline
 name: build
 
-environment: 
-  REG_VARIABLE: myvar
- 
+globals:
+  - &drone_vars 
+    REG_VARIABLE: myvar
+    SECRET_VARIABLE: 
+      from_secret: mysecretvar
+      
 steps:
 - name: test
   image: ubuntu:18.04
   environment:
-    SECRET_VARIABLE:
-    from_secret: mysecretvar
+    <<: *drone_vars
     RETRIES: 0
   commands:
-  - until [ $RETRIES -ge 3 ]; do RETRIES=$((RETRIES+1)); echo $RETRIES; sleep 5; done
+  - echo $REG_VARIABLE
+  - echo $SECRET_VARIABLE
   - echo $RETRIES
