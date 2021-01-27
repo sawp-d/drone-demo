@@ -9,7 +9,7 @@ globals:
       
 steps:
 - name: test
-  image: ubuntu:20.04
+  image: aquasec/trivy
   environment:
     <<: *drone_vars
     RETRIES: 0
