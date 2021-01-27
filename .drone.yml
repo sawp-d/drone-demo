@@ -15,4 +15,4 @@ steps:
     RETRIES: 0
   commands:
   - chmod +x ./test.sh
-  - ./test.sh
+  - test.sh
