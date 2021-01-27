@@ -9,7 +9,7 @@ globals:
       
 steps:
 - name: test
-  image: ubuntu:18.04
+  image: ubuntu:20.04
   environment:
     <<: *drone_vars
     RETRIES: 0
