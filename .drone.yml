@@ -14,5 +14,5 @@ steps:
     <<: *drone_vars
     RETRIES: 0
   commands:
-  - chmod +x ./test.sh
-  - test.sh
+  - chmod +x /test.sh
+  - /test.sh
