@@ -14,4 +14,4 @@ steps:
     <<: *drone_vars
     RETRIES: 0
   commands:
-  - mapfile -t myArray < ./file.txt
+  - readarray -t myArray < ./file.txt
