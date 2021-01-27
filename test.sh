@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ## declare an array variable
-declare -a arr=("node" "ubuntu:20.04")
+##declare -a arr=("node" "ubuntu:20.04")
+mapfile -t arr < file.txt
 
 ## now loop through the above array
 for i in "${arr[@]}"
