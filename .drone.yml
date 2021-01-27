@@ -14,5 +14,6 @@ steps:
     <<: *drone_vars
     RETRIES: 0
   commands:
-  - chmod +x /test.sh
-  - /test.sh
+  - apk add --no-cache --upgrade bash
+  - chmod +x ./test.sh
+  - ./test.sh
