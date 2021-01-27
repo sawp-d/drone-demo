@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## declare an array variable
 declare -a arr=("node" "ubuntu:20.04")
 
