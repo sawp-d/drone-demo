@@ -1,19 +1,84 @@
+# Use this pipeline to check the formatting of Terraform and run a basic lint.
+# Be sure to update your terraform image as appropriate.
+# If terraform fmt fails, locally run terraform fmt -recursive to fix formatting and commit.
+# The current steup will trigger for any push to a branch, including main.
 kind: pipeline
-name: build
+name: test
+
+steps:
+  - name: fmt check
+    image: hashicorp/terraform:0.13.2
+    commands:
+      - terraform fmt -check
+
+  - name: lint
+    image: wata727/tflint
+    commands:
+      - tflint
+
+trigger:
+  event:
+  - push
+
+---
+# Use this pipeline to run a plan and apply against Terraform Cloud.
+# This pipeline will plan during a PR to main, and apply at merge to main.
+# This pipeline assumes that a Terraform Cloud team token is in the Drone settings as TFE_TOKEN.
+kind: pipeline
+name: build monitoring
 
 globals:
-  - &drone_vars 
-    REG_VARIABLE: myvar
-    SECRET_VARIABLE: 
-      from_secret: mysecretvar
-      
+  - &tf_vars
+    TFE_TOKEN:
+      from_secret: TFE_TOKEN
+
 steps:
-- name: test
-  image: aquasec/trivy
-  environment:
-    <<: *drone_vars
-    RETRIES: 0
-  commands:
-  - apk add --no-cache --upgrade bash
-  - chmod +x ./test.sh
-  - ./test.sh
+  - name: plan
+    image: hashicorp/terraform:0.13.2
+    environment:
+      <<: *tf_vars
+    commands:
+      - mkdir -p /root/.terraform.d
+      - echo "{\"credentials\":{\"app.terraform.io\":{\"token\":\"$TFE_TOKEN\"}}}" > ~/.terraform.d/credentials.tfrc.json
+      - terraform init
+      - terraform get
+      - terraform plan
+    when:
+      branch:
+        exclude:
+        - main
+      event:
+      - pull_request
+
+  - name: apply nonprod
+    image: hashicorp/terraform:0.13.2
+    environment:
+      <<: *tf_vars
+    commands:
+      - mkdir -p /root/.terraform.d
+      - echo "{\"credentials\":{\"app.terraform.io\":{\"token\":\"$TFE_TOKEN\"}}}" > ~/.terraform.d/credentials.tfrc.json
+      - terraform init
+      - terraform get
+      - terraform apply --auto-approve
+    when:
+      branch:
+        include:
+        - main
+      event:
+      - push
+
+  - name: apply prod
+    image: hashicorp/terraform:0.13.2
+    environment:
+      <<: *tf_vars
+    commands:
+      - mkdir -p /root/.terraform.d
+      - echo "{\"credentials\":{\"app.terraform.io\":{\"token\":\"$TFE_TOKEN\"}}}" > ~/.terraform.d/credentials.tfrc.json
+      - terraform init
+      - terraform get
+      - terraform apply --auto-approve
+    when:
+      event:
+      - promote
+      target:
+      - prod
